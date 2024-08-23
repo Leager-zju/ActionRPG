@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "RCharacterBase.generated.h"
+#include "RPlayerState.generated.h"
 
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -13,29 +13,18 @@ class UAttributeSet;
 /**
  * 
  */
-UCLASS(Abstract)
-class ACTIONRPG_API ARCharacterBase : public ACharacter, public IAbilitySystemInterface
+UCLASS()
+class ACTIONRPG_API ARPlayerState : public APlayerState, public IAbilitySystemInterface
 {
   GENERATED_BODY()
 
 public:
-  ARCharacterBase();
+  ARPlayerState();
 
   UAbilitySystemComponent* GetAbilitySystemComponent() const override { return GASComponent; };
   UAttributeSet* GetAttributeSet() const { return GASAttributeSet; };
 
 protected:
-  virtual void BeginPlay() override;
-
-  void PossessedBy(AController*) override;
-  void OnRep_PlayerState() override;
-
-private:
-  void InitAbilityActorInfo();
-
-protected:
-  UPROPERTY(EditDefaultsOnly, Category = "Apperance")
-  TObjectPtr<USkeletalMeshComponent> Weapon;
 
   UPROPERTY(EditDefaultsOnly, Category = "GAS")
   TObjectPtr<UAbilitySystemComponent> GASComponent;
