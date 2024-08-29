@@ -18,9 +18,10 @@ class ACTIONRPG_API ARHUD : public AHUD
 
 public:
   URStatusBarWidget* GetStatusBar() { return StatusBar; }
+
+  void InitAndDraw();
 	
 protected:
-  virtual void BeginPlay() override;
 
 private:
   UPROPERTY(VisibleAnywhere)

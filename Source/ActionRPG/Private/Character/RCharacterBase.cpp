@@ -5,7 +5,6 @@
 #include "Components/RPlayerState.h"
 #include "AbilitySystemComponent.h"
 
-// Sets default values
 ARCharacterBase::ARCharacterBase()
 {
   PrimaryActorTick.bCanEverTick = false;
@@ -17,24 +16,11 @@ ARCharacterBase::ARCharacterBase()
   Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-// Called when the game starts or when spawned
-void ARCharacterBase::BeginPlay()
-{
-  Super::BeginPlay();
-}
-
 void ARCharacterBase::PossessedBy(AController* NewController)
 {
   Super::PossessedBy(NewController);
 
-  if (GASComponent)
-  {
-    GASComponent->InitAbilityActorInfo(this, this);
-  } 
-  else
-  {
-    InitAbilityActorInfo();
-  }
+  InitAbilityActorInfo();
 }
 
 void ARCharacterBase::OnRep_PlayerState()
@@ -46,11 +32,8 @@ void ARCharacterBase::OnRep_PlayerState()
 
 void ARCharacterBase::InitAbilityActorInfo()
 {
-  if (ARPlayerState* PS = GetPlayerState<ARPlayerState>())
+  if (AbilitySystemComponent)
   {
-    if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
-    {
-      ASC->InitAbilityActorInfo(PS, this);
-    }
+    AbilitySystemComponent->InitAbilityActorInfo(this, this);
   }
 }

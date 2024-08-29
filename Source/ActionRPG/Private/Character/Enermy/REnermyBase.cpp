@@ -13,13 +13,13 @@ AREnermyBase::AREnermyBase()
   Weapon->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
   Weapon->CustomDepthStencilValue = 250.0f;
 
-  GASComponent = CreateDefaultSubobject<URGASComponent>("GAS Comp");
-  ensure(GASComponent);
-  GASAttributeSet = CreateDefaultSubobject<URGASAttributeSet>("GAS Attribute Set");
-  ensure(GASAttributeSet);
+  AbilitySystemComponent = CreateDefaultSubobject<URGASComponent>("GAS Comp");
+  ensure(AbilitySystemComponent);
+  AttributeSet = CreateDefaultSubobject<URGASAttributeSet>("GAS Attribute Set");
+  ensure(AttributeSet);
 
-  GASComponent->SetIsReplicated(true);
-  GASComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+  AbilitySystemComponent->SetIsReplicated(true);
+  AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
 
 void AREnermyBase::Highlight()

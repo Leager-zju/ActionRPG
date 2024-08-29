@@ -8,7 +8,7 @@
 #include "RCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
-class UAttributeSet;
+class URGASAttributeSet;
 
 /**
  * 
@@ -21,12 +21,10 @@ class ACTIONRPG_API ARCharacterBase : public ACharacter, public IAbilitySystemIn
 public:
   ARCharacterBase();
 
-  UAbilitySystemComponent* GetAbilitySystemComponent() const override { return GASComponent; };
-  UAttributeSet* GetAttributeSet() const { return GASAttributeSet; };
+  UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+  URGASAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 protected:
-  virtual void BeginPlay() override;
-
   void PossessedBy(AController*) override;
   void OnRep_PlayerState() override;
 
@@ -38,8 +36,8 @@ protected:
   TObjectPtr<USkeletalMeshComponent> Weapon;
 
   UPROPERTY(EditDefaultsOnly, Category = "GAS")
-  TObjectPtr<UAbilitySystemComponent> GASComponent;
+  TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
   UPROPERTY(EditDefaultsOnly, Category = "GAS")
-  TObjectPtr<UAttributeSet> GASAttributeSet;
+  TObjectPtr<URGASAttributeSet> AttributeSet;
 };

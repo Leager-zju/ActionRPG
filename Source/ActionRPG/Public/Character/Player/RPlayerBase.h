@@ -19,6 +19,8 @@ class ACTIONRPG_API ARPlayerBase : public ARCharacterBase
 public:
   ARPlayerBase();
 
+  void BeginPlay() override;
+
 protected:
   UPROPERTY(EditDefaultsOnly, Category = "View")
   TObjectPtr<USpringArmComponent> CameraBoom;

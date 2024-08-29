@@ -29,7 +29,51 @@ class ACTIONRPG_API URGASAttributeSet : public UAttributeSet
 
 public:
   URGASAttributeSet();
+
   void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+  /**
+   * PreGameplayEffectExecute -> PreAttributeBaseChange -> PreAttributeChange -> ATTRIBUTE BE CHANGED ->
+   * PostAttributeChange -> ON ATTRIBUTE CHANGED -> PostAttributeBaseChange -> PostGameplayEffectExecute
+   */
+
+  /**
+   * Called just before any modification happens to an attribute's base value which is modified by Instant Gameplay Effects.
+   */
+  void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+
+  /**
+   * Called just after any modification happens to an attribute's base value which is modified by Instant Gameplay Effects.
+   */
+  void PostAttributeBaseChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) const override;
+
+  /**
+   * Called just before any modification happens to an attribute's current value which is modified by Duration based Gameplay Effects.
+   * 
+   * This function is meant to enforce things like "Health = Clamp(Health, 0, MaxHealth)" and NOT things like "trigger this extra thing if damage is applied, etc".
+   */
+  void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+  /**
+   * Called just after any modification happens to an attribute.'s current value which is modified by Duration based Gameplay Effects.
+   */
+  void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+
+  /**
+   * Called just before the Gameplay Effect is executed.
+   * 
+   * Return true to continue, or false to throw out the modification.
+   */
+  bool PreGameplayEffectExecute(struct FGameplayEffectModCallbackData& Data) override;
+
+  /**
+   * Called just after the Gameplay Effect is executed.
+   * 
+   * When PostGameplayEffectExecute() is called, changes to the Attribute have already happened,
+   * but they have not replicated back to clients yet so clamping values here will not cause two network updates to clients.
+   * Clients will only receive the update after clamping.
+   */
+  void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
 public:
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CurHealth) FGameplayAttributeData CurHealth;

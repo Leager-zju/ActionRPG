@@ -4,10 +4,8 @@
 #include "UI/RHUD.h"
 #include "UI/Widget/RStatusBarWidget.h"
 
-void ARHUD::BeginPlay()
+void ARHUD::InitAndDraw()
 {
-  Super::BeginPlay();
-
   StatusBar = CreateWidget<URStatusBarWidget>(GetWorld(), StatusBarClass);
   StatusBar->AddToViewport();
 }

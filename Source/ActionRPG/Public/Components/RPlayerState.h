@@ -47,6 +47,9 @@ public:
 protected:
   virtual void BeginPlay() override;
 
+private:
+  void InitHUD();
+
 protected:
   UPROPERTY(EditDefaultsOnly, Category = "GAS")
   UAbilitySystemComponent* AbilitySystemComponent;

@@ -37,6 +37,18 @@ void ARPlayerState::BeginPlay()
   if (ARPlayerController* PC = Cast<ARPlayerController>(GetOwner()))
   {
     HUD = Cast<ARHUD>(PC->GetHUD());
+    InitHUD();
+  }
+}
+
+void ARPlayerState::InitHUD()
+{
+  ensure(HUD);
+  HUD->InitAndDraw();
+  if (URStatusBarWidget* StatusBar = HUD->GetStatusBar())
+  {
+    StatusBar->SetHealthBarPercentage(GetCurHealth() / GetMaxHealth());
+    StatusBar->SetManaBarPercentage(GetCurMana() / GetMaxMana());
   }
 }
 

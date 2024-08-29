@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/RPlayerState.h"
 
 ARPlayerBase::ARPlayerBase()
 {
@@ -23,7 +24,7 @@ ARPlayerBase::ARPlayerBase()
   GetCharacterMovement()->bConstrainToPlane = true;
   // 在对象初始化时，它会被立即捕捉到指定平面上
   GetCharacterMovement()->bSnapToPlaneAtStart = true;
-
+  
   // 创建组件
   CameraBoom = CreateDefaultSubobject<USpringArmComponent>("Spring Arm");
   check(CameraBoom);
@@ -42,4 +43,15 @@ ARPlayerBase::ARPlayerBase()
   // 相机绑定到弹簧臂
   FollowCamera->SetupAttachment(CameraBoom);
   FollowCamera->bUsePawnControlRotation = false;
+}
+
+void ARPlayerBase::BeginPlay()
+{
+  Super::BeginPlay();
+
+  if (ARPlayerState* PS = GetPlayerState<ARPlayerState>())
+  {
+    AbilitySystemComponent = PS->GetAbilitySystemComponent();
+    AttributeSet = PS->GetAttributeSet();
+  }
 }
